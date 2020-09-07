@@ -23,4 +23,8 @@ export default {
 
 <style scoped>
 
+.todos__wrap{
+  margin-bottom: 3rem;
+}
+
 </style>

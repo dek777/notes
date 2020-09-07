@@ -20,5 +20,7 @@ export default {
   margin: 1.5rem 0 0;
   font-size: 0.9rem;
   color: var(--secondary-text);
+  position: absolute;
+  bottom: 15px;
 }
 </style>

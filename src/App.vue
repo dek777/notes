@@ -44,6 +44,10 @@ export default {
             {
               id: 1,
               text: 'Задача 2'
+            },
+            {
+              id: 2,
+              text: 'Задача 3'
             }
           ]
         }
@@ -100,7 +104,7 @@ html,body{
   width: 100%;
   max-width: 1200px;
   padding: 15px;
-  margin: 3rem auto;
+  margin: auto;
 }
 
 .icon{

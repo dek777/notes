@@ -37,11 +37,15 @@ export default {
   border-radius: 10px;
   background-color: #fff;
   text-align: left;
+  -webkit-box-shadow: 0px 5px 10px 0px rgba(50, 50, 50, 0.3);
+  -moz-box-shadow:    0px 5px 10px 0px rgba(50, 50, 50, 0.3);
+  box-shadow:         0px 5px 10px 0px rgba(50, 50, 50, 0.3);
+  position: relative;
 }
 
 .note__title {
   font-size: 1.1rem;
-  font-weight: 500;
+  font-weight: 600;
   margin: 0.3rem 0 1.5rem;
 }
 

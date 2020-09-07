@@ -1,7 +1,6 @@
 <template>
   <div class="container">
-    <h2></h2>
-
+    <CreateNote />
     <div class="notes__wrap">
       <Note v-for="note in notes" :key="note.id" :note="note" />
     </div>
@@ -11,6 +10,7 @@
 
 <script>
 import Note from '@/components/Note.vue'
+import CreateNote from '@/components/CreateNote.vue'
 
 export default {
   name: 'Home',
@@ -21,7 +21,7 @@ export default {
     }
   },
   components: {
-    Note
+    Note, CreateNote
   }
 }
 </script>
@@ -32,5 +32,6 @@ export default {
   display: grid;
   grid-template-columns: repeat(3,1fr);
   gap: 2rem;
+  margin: 2rem auto;
 }
 </style>
