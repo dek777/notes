@@ -70,7 +70,7 @@ export default {
   --text: #202224;
   --secondary-text: #7d7d7e;
   --grey: #525252;
-  --blue: #4279EE;
+  --blue: #4279ee;
   --secondary-blue: #93afec;
   --bg-blue: #E6F2FE;
 }

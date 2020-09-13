@@ -18,7 +18,7 @@ const routes = [
   {
     path: '/edit',
     name: 'EditPage',
-    component: () => import('../views/EditPage.vue')
+    component: () => import('../views/EditPage.vue'),
   }
 ]
 

@@ -3,12 +3,12 @@
     <div class="note__title-wrap">
       <p class="note__title">{{note.title}}</p>
       <div class="icons__wrap">
-        <router-link to="/edit"><i class="flaticon-pencil icon"></i></router-link>
-        <i class="flaticon-delete icon" @click="showHideConfirmBlock"></i>
+        <router-link :to="{ path: '/edit', query: {id: note.id} }" :note="note"><i class="flaticon-pencil icon"></i></router-link>
+        <i class="flaticon-delete icon" @click="showHideConfirmModal"></i>
       </div>
     </div>
-    
-    <Confirm :confirmBlockVisible="confirmBlockVisible" @delete-item="deleteNote" @cancel="showHideConfirmBlock" />
+  
+    <ConfirmModal :confirmModalVisible="confirmModalVisible" @delete-item="deleteNote" @cancel="showHideConfirmModal" />
 
     <TodoList :todos="note.todos" />
     <TodoTotals :todosCount="note.todos.length" />
@@ -18,12 +18,12 @@
 <script>
 import TodoList from "@/components/TodoList.vue";
 import TodoTotals from "@/components/TodoTotals.vue";
-import Confirm from "@/components/Confirm.vue";
+import ConfirmModal from "@/components/ConfirmModal.vue";
 
 export default {
   data(){
     return{
-      confirmBlockVisible: false
+      confirmModalVisible: false,
     }
   },
   props: {
@@ -33,17 +33,17 @@ export default {
     },
   },
   methods: {
-    showHideConfirmBlock(){
-      this.confirmBlockVisible = !this.confirmBlockVisible;
+    showHideConfirmModal(){
+      this.confirmModalVisible = !this.confirmModalVisible;
     },
     deleteNote(){
       this.$emit('delete-note', this.note.id);
-    }
+    },
   },
   components: {
     TodoList,
     TodoTotals,
-    Confirm
+    ConfirmModal
   },
 };
 </script>
