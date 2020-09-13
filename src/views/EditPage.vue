@@ -1,12 +1,14 @@
 <template>
   <div class="edit__wrap">
-    <h2>Edit</h2>
-   <p>{{editNote}}</p>
+    <h1>Редактирование заметки</h1>
+    <FormEditNote :note="editNote" />
   </div>
 </template>
 
 
 <script>
+import FormEditNote from "@/components/FormEditNote.vue"
+
 export default {
   data(){
     return {
@@ -26,6 +28,9 @@ export default {
       const id = this.getId()
       return this.notes.filter( note => note.id == id )[0]
     }
+  },
+  components: {
+    FormEditNote
   }
 }
 </script>

@@ -1,11 +1,13 @@
 <template>
   <div id="app">
-    <h1 class="header__title"><span class="header__title_circle">З</span>аметки</h1>
+    <router-link to="/"><h1 class="header__title"><span class="header__title_circle">З</span>аметки</h1></router-link>
     <!-- <div id="nav">
       <router-link to="/">Home</router-link> |
       <router-link to="/edit">Edit</router-link>
     </div> -->
-    <router-view :notes="notes" @remove-note="removeNote" />
+    <transition name="pages-fade" mode="out-in">
+      <router-view :notes="notes" @remove-note="removeNote" />
+    </transition>
   </div>
 </template>
 
@@ -102,6 +104,7 @@ input{
 
 a, a:hover, a:focus{
   text-decoration: none;
+  color: var(--text);
 }
 
 .header__title{
@@ -136,16 +139,15 @@ a, a:hover, a:focus{
   cursor: pointer;
 }
 
-/* #nav {
-  padding: 30px;
+/* Animation */
+
+.pages-fade-enter-active,
+.pages-fade-leave-active {
+  transition: opacity 0.3s;
 }
 
-#nav a {
-  font-weight: bold;
-  color: #202224;
+.pages-fade-enter,
+.pages-fade-leave-to {
+  opacity: 0;
 }
-
-#nav a.router-link-exact-active {
-  color: #42b983;
-} */
 </style>
