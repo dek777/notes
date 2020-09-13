@@ -5,7 +5,7 @@
       <router-link to="/">Home</router-link> |
       <router-link to="/edit">Edit</router-link>
     </div> -->
-    <router-view :notes="notes" />
+    <router-view :notes="notes" @remove-note="removeNote" />
   </div>
 </template>
 
@@ -54,6 +54,11 @@ export default {
       ]
     }
   },
+  methods: {
+    removeNote(id){
+      this.notes = this.notes.filter( note => note.id !== id )
+    }
+  },
   components: {
     
   }
@@ -64,6 +69,7 @@ export default {
 :root{
   --text: #202224;
   --secondary-text: #7d7d7e;
+  --grey: #525252;
   --blue: #4279EE;
   --secondary-blue: #93afec;
   --bg-blue: #E6F2FE;
@@ -86,6 +92,14 @@ html,body{
   color: var(--text);
 }
 
+input{
+  font-family: 'Gilroy', sans-serif;
+}
+
+a, a:hover, a:focus{
+  text-decoration: none;
+}
+
 .header__title{
   font-size: 2.5rem;
   width: max-content;
@@ -105,6 +119,7 @@ html,body{
   max-width: 1200px;
   padding: 15px;
   margin: auto;
+  box-sizing: border-box;
 }
 
 .icon{

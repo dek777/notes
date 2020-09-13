@@ -3,10 +3,11 @@
     <div class="note__title-wrap">
       <p class="note__title">{{note.title}}</p>
       <div class="icons__wrap">
-        <i class="flaticon-pencil icon"></i>
-        <i class="flaticon-delete icon"></i>
+        <router-link to="/edit"><i class="flaticon-pencil icon"></i></router-link>
+        <i class="flaticon-delete icon" @click="showHideConfirmBlock"></i>
       </div>
     </div>
+    <Confirm :confirmBlockVisible="confirmBlockVisible" @delete-item="deleteNote" @cancel="showHideConfirmBlock" />
 
     <TodoList :todos="note.todos" />
     <TodoTotals :todosCount="note.todos.length" />
@@ -16,17 +17,32 @@
 <script>
 import TodoList from "@/components/TodoList.vue";
 import TodoTotals from "@/components/TodoTotals.vue";
+import Confirm from "@/components/Confirm.vue";
 
 export default {
+  data(){
+    return{
+      confirmBlockVisible: false
+    }
+  },
   props: {
     note: {
       type: [Object, Array],
       required: true,
     },
   },
+  methods: {
+    showHideConfirmBlock(){
+      this.confirmBlockVisible = !this.confirmBlockVisible;
+    },
+    deleteNote(){
+      this.$emit('delete-note', note.id);
+    }
+  },
   components: {
     TodoList,
     TodoTotals,
+    Confirm
   },
 };
 </script>

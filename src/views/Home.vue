@@ -1,9 +1,10 @@
 <template>
   <div class="container">
-    <CreateNote />
-    <div class="notes__wrap">
-      <Note v-for="note in notes" :key="note.id" :note="note" />
+    <CreateNote v-on:create-note="createNewNote" />
+    <div v-if="notes.length" class="notes__wrap">
+      <Note v-for="note in notes" :key="note.id" :note="note" @delete-note="deleteNote" />
     </div>
+    <p v-else class="text_empty-list">Нет заметок</p>
     
   </div>
 </template>
@@ -16,8 +17,15 @@ export default {
   name: 'Home',
   props: {
     notes: {
-      type: [Object, Array],
-      required: true
+      type: [Object, Array]
+    }
+  },
+  methods: {
+    createNewNote(note){
+      this.notes.unshift(note);
+    },
+    deleteNote(id){
+      this.$emit('remove-note',id);
     }
   },
   components: {
@@ -33,5 +41,10 @@ export default {
   grid-template-columns: repeat(3,1fr);
   gap: 2rem;
   margin: 2rem auto;
+}
+
+.text_empty-list{
+  font-size: 1.1rem;
+  color: var(--secondary-text);
 }
 </style>
