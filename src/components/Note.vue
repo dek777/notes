@@ -7,6 +7,7 @@
         <i class="flaticon-delete icon" @click="showHideConfirmBlock"></i>
       </div>
     </div>
+    
     <Confirm :confirmBlockVisible="confirmBlockVisible" @delete-item="deleteNote" @cancel="showHideConfirmBlock" />
 
     <TodoList :todos="note.todos" />
@@ -36,7 +37,7 @@ export default {
       this.confirmBlockVisible = !this.confirmBlockVisible;
     },
     deleteNote(){
-      this.$emit('delete-note', note.id);
+      this.$emit('delete-note', this.note.id);
     }
   },
   components: {
@@ -57,6 +58,8 @@ export default {
   -moz-box-shadow:    0px 5px 10px 0px rgba(50, 50, 50, 0.3);
   box-shadow:         0px 5px 10px 0px rgba(50, 50, 50, 0.3);
   position: relative;
+  min-height: 219px;
+  box-sizing: border-box;
 }
 
 .note__title {
@@ -73,4 +76,6 @@ export default {
 .icons__wrap{
   padding: 5px;
 }
+
+
 </style>

@@ -75,6 +75,10 @@ export default {
   --bg-blue: #E6F2FE;
 }
 
+* { 
+  box-sizing: border-box;
+}
+
 html,body{
   padding: 0;
   margin: 0;
