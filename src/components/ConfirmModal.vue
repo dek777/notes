@@ -4,9 +4,9 @@
       <div v-if="confirmModalVisible" class="confirm__bg" @click="onClickOutModal">
         <div class="confirm__modal">
           <p class="question_circle">?</p>
-          <p class="confirm__text">Вы уверены, что хотите удалить заметку?</p>
+          <p class="confirm__text"><slot></slot></p>
           <div class="confirm__btn-group">
-            <button class="confirm__btn confirm__btn_yes" @click.prevent="deleteItem">Да</button>
+            <button class="confirm__btn confirm__btn_yes" @click.prevent="confirm">Да</button>
             <button class="confirm__btn confirm__btn_no" @click.prevent="cancel">Нет</button>
           </div>
         </div>
@@ -23,8 +23,9 @@ export default {
     },
   },
   methods: {
-    deleteItem() {
-      this.$emit("delete-item");
+    confirm() {
+      this.$emit("cancel");
+      setTimeout(() => this.$emit("confirm"), 500);
     },
     cancel() {
       this.$emit("cancel");

@@ -8,7 +8,7 @@
       </div>
     </div>
   
-    <ConfirmModal :confirmModalVisible="confirmModalVisible" @delete-item="deleteNote" @cancel="showHideConfirmModal" />
+    <ConfirmModal :confirmModalVisible="confirmModalVisible" @confirm="deleteNote" @cancel="showHideConfirmModal">Вы уверены, что хотите удалить заметку?</ConfirmModal>
 
     <TodoList :todos="note.todos" />
     <TodoTotals :todosCount="note.todos.length" />
@@ -37,6 +37,8 @@ export default {
       this.confirmModalVisible = !this.confirmModalVisible;
     },
     deleteNote(){
+      // this.showHideConfirmModal();
+      // setTimeout(() => this.$emit('delete-note', this.note.id), 500)
       this.$emit('delete-note', this.note.id);
     },
   },
