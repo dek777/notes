@@ -6,7 +6,16 @@
       <!-- <input type="text" class="todo__input" v-model="todo.text" /> -->
       <p v-show="!todoEditMode" class="todo__text-field" @click="toggleTodoEditMode">{{todo.text}}</p>
       <!-- <div contenteditable="true" class="todo__input" @blur="deleteTodo" @keyup.enter="deleteTodo">{{todo.text}}</div> -->
-      <textarea v-show="todoEditMode" class="todo__text-field todo__textarea" @blur="toggleTodoEditMode" @keyup.enter="toggleTodoEditMode" ref="todoTextarea" @focus="autoresize" @keyup="autoresize" v-model="todo.text"></textarea>
+      <textarea
+        v-show="todoEditMode"
+        class="todo__text-field todo__textarea"
+        @blur="toggleTodoEditMode"
+        @keyup.enter="toggleTodoEditMode"
+        ref="todoTextarea"
+        @focus="autoresize"
+        @keyup="autoresize"
+        v-model="todo.text"
+      ></textarea>
       <i class="flaticon-delete remove-icon" @click="showHideConfirmBlock"></i>
     </div>
     <Confirm
@@ -25,7 +34,7 @@ export default {
     return {
       statesStack: [], //массив состояний заметки для undo-redo
       confirmBlockVisible: false,
-      todoEditMode: false //режим редактирования текста todo
+      todoEditMode: false, //режим редактирования текста todo
     };
   },
   props: {
@@ -38,27 +47,30 @@ export default {
     Confirm,
   },
   methods: {
-    doneUndoneTodo() { //чекбокс для todo (выполнено - не выполнено)
+    doneUndoneTodo() {
+      //чекбокс для todo (выполнено - не выполнено)
       this.todo.done = !this.todo.done;
     },
-    showHideConfirmBlock() { //открыть-скрыть блок подтверждения
+    showHideConfirmBlock() {
+      //открыть-скрыть блок подтверждения
       this.confirmBlockVisible = !this.confirmBlockVisible;
     },
-    toggleTodoEditMode(){//переключаем режим редактирования todo
+    toggleTodoEditMode() {
+      //переключаем режим редактирования todo
       this.todoEditMode = !this.todoEditMode;
-      if (this.todoEditMode){
-        this.$nextTick( () => {
+      if (this.todoEditMode) {
+        this.$nextTick(() => {
           this.$refs.todoTextarea.focus();
-        })
+        });
       }
     },
     deleteTodo() {
       console.log(this.todo.id);
     },
-    autoresize(event){
+    autoresize(event) {
       const textarea = event.target;
-      textarea.style.cssText = 'height:' + textarea.scrollHeight + 'px';
-    }
+      textarea.style.cssText = "height:" + textarea.scrollHeight + "px";
+    },
   },
 };
 </script>
@@ -132,15 +144,15 @@ export default {
   border-bottom: 1px solid var(--secondary-blue);
 }
 
-.todo__textarea{
+.todo__textarea {
   resize: none;
   height: auto;
   overflow: hidden;
-  font-family: 'Gilroy', sans-serif;
+  font-family: "Gilroy", sans-serif;
   padding: 0;
 }
 
-.remove-icon{
+.remove-icon {
   color: var(--secondary-blue);
   cursor: pointer;
   position: absolute;

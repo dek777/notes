@@ -7,16 +7,7 @@
             class="create-note__input create-note__input_title"
             v-model="originNote.title"
           />
-          <div class="create-note__add-todo-wrap">
-            <input
-              type="text"
-              class="create-note__input create-note__input_todo"
-              placeholder="Добавить задачу"
-              @keyup.enter="addTodo"
-              v-model="newTodo"
-            />
-            <i @click="addTodo" class="flaticon-add icon"></i>
-          </div>
+          <AddNewTodo @add-new-todo="addTodo" />
           <TodoList :todos="originNote.todos" />
           <div class="btn-group__wrap">
             <button class="btn btn_blue" @click.prevent="initNote()">Сохранить</button>
@@ -28,6 +19,7 @@
 </template>
 
 <script>
+import AddNewTodo from "@/components/AddNewTodo.vue";
 import TodoList from "@/components/TodoList.vue";
 
 export default {
@@ -46,20 +38,15 @@ export default {
     }
   },
   methods: {
-    addTodo() {
-      if (this.newTodo.trim()) {
-        this.todos.push({
-          id: Date.now(),
-          text: this.newTodo,
-        });
-        this.newTodo = "";
+    addTodo(todo) {
+      if (todo) {
+        this.todos.push(todo);
       }
     },
     clearForm(){
       this.id = null;
       this.title = "Введите название заметки";
       this.todos = [];
-      this.newTodo = "";
     },
     initNote(){
       if (this.title.trim()) {
@@ -79,6 +66,7 @@ export default {
   },
   components: {
     TodoList,
+    AddNewTodo
   },
 }
 

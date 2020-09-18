@@ -9,15 +9,7 @@
             @keyup.enter="addTodo"
             v-model="title"
           />
-          <div class="create-note__add-todo-wrap">
-            <input
-              type="text"
-              class="create-note__input create-note__input_todo"
-              placeholder="Добавить задачу"
-              v-model="newTodo"
-            />
-            <i @click="addTodo" class="flaticon-add icon"></i>
-          </div>
+          <AddNewTodo @add-new-todo="addTodo" />
           <TodoList :todos="this.todos" />
           <div class="btn-group__wrap">
             <button class="btn__create-note btn__create-note_blue" @click.prevent="initNote()">Сохранить</button>
@@ -30,6 +22,7 @@
 </template>
 
 <script>
+import AddNewTodo from "@/components/AddNewTodo.vue";
 import TodoList from "@/components/TodoList.vue";
 
 export default {
@@ -38,7 +31,6 @@ export default {
       id: null,
       title: "Введите название заметки",
       todos: [],
-      newTodo: "",
     };
   },
   props: {
@@ -47,20 +39,15 @@ export default {
     }
   },
   methods: {
-    addTodo() {
-      if (this.newTodo.trim()) {
-        this.todos.push({
-          id: Date.now(),
-          text: this.newTodo,
-        });
-        this.newTodo = "";
+    addTodo(todo) {
+      if (todo) {
+        this.todos.push(todo);
       }
     },
     clearForm(){
       this.id = null;
       this.title = "Введите название заметки";
       this.todos = [];
-      this.newTodo = "";
     },
     initNote(){
       if (this.title.trim()) {
@@ -80,6 +67,7 @@ export default {
   },
   components: {
     TodoList,
+    AddNewTodo
   },
 }
 
@@ -179,19 +167,6 @@ export default {
   margin: 0.3rem 0 0.5rem;
   padding: 5px 10px;
   color: var(--text);
-}
-
-.create-note__add-todo-wrap {
-  display: flex;
-}
-
-.icon {
-  color: var(--secondary-blue);
-  margin: auto;
-}
-
-.icon:hover {
-  color: var(--blue);
 }
 
 /* Animation */
