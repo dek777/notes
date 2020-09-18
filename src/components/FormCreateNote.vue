@@ -6,6 +6,7 @@
             id="newNoteTitle"
             type="text"
             class="create-note__input create-note__input_title"
+            @keyup.enter="addTodo"
             v-model="title"
           />
           <div class="create-note__add-todo-wrap">

@@ -1,6 +1,6 @@
 <template>
   <div class="edit__wrap">
-    <h1>Редактирование заметки</h1>
+    <h1 class="title">Редактирование заметки</h1>
     <FormEditNote :note="editNote" />
   </div>
 </template>
@@ -36,5 +36,8 @@ export default {
 </script>
 
 <style scoped>
-
+.title{
+  margin: 4rem auto 1rem;
+  font-size: 1.4rem;
+}
 </style>

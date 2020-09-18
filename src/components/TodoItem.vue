@@ -27,7 +27,6 @@ export default {
   font-size: 1.001rem;
   margin: 0.5rem 0;
 }
-
 .todo__index {
   margin-right: 1rem;
   display: inline-block;

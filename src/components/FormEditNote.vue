@@ -5,18 +5,19 @@
             id="newNoteTitle"
             type="text"
             class="create-note__input create-note__input_title"
-            v-model="title"
+            v-model="originNote.title"
           />
           <div class="create-note__add-todo-wrap">
             <input
               type="text"
               class="create-note__input create-note__input_todo"
               placeholder="Добавить задачу"
+              @keyup.enter="addTodo"
               v-model="newTodo"
             />
             <i @click="addTodo" class="flaticon-add icon"></i>
           </div>
-          <TodoList :todos="this.todos" />
+          <TodoList :todos="originNote.todos" />
           <div class="btn-group__wrap">
             <button class="btn btn_blue" @click.prevent="initNote()">Сохранить</button>
             <button class="btn btn_grey" @click.prevent="onCancel()">Отменить</button>
@@ -32,6 +33,7 @@ import TodoList from "@/components/TodoList.vue";
 export default {
   data() {
     return {
+      originNote: JSON.parse(JSON.stringify(this.note)), //убираем реактивность
       id: this.note.id,
       title: this.note.title,
       todos: this.note.todos,

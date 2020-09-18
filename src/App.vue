@@ -24,13 +24,13 @@ export default {
           todos: [
             {
               id: 0,
-              completed: false,
-              text: 'Задача 1'
+              text: 'Задача 1 sssssssssds dddddddd ddddddg gggggg g qqqq qqqqqqqqqq ww rrrrrrrr fffffffffffff gggggggggggggg hhhhhhhhhh fffffffffffff dddddddddddddddd',
+              done: true
             },
             {
               id: 1,
-              completed: false,
-              text: 'Задача 2'
+              text: 'Задача 2',
+              done: false
             }
           ]
         },
@@ -41,15 +41,18 @@ export default {
           todos: [
             {
               id: 0,
-              text: 'Задача 1'
+              text: 'Задача 1',
+              done: false
             },
             {
               id: 1,
-              text: 'Задача 2'
+              text: 'Задача 2',
+              done: false 
             },
             {
               id: 2,
-              text: 'Задача 3'
+              text: 'Задача 3',
+              done: false 
             }
           ]
         }

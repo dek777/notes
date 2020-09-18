@@ -21,7 +21,7 @@ export default {
   },
   methods: {
     deleteItem() {
-      this.$emit("delete-item");
+      this.$emit("confirm");
     },
     cancel() {
       this.$emit("cancel");
