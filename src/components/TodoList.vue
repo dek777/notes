@@ -4,7 +4,7 @@
       <TodoItem v-for="(todo, i) in todos" :key="i" :todo="todo" :index="i" />
     </div>
     <div v-if="isEditPage" class="todos__wrap">
-      <TodoItemEdit v-for="(todo, i) in todos" :key="i" :todo="todo" :index="i" />
+      <TodoItemEdit v-for="(todo, i) in todos" :key="i" :todo="todo" :index="i" @delete-todo="deleteTodo" />
     </div>
   </div>
 </template>
@@ -28,6 +28,11 @@ export default {
     isEditPage: (vueInstance) =>
       vueInstance.$route.name === "EditPage" ? true : false,
   },
+  methods: {
+    deleteTodo(id) {
+      this.$emit('delete-todo', id);
+    },
+  }
 };
 </script>
 

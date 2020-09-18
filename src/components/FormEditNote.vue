@@ -5,10 +5,10 @@
             id="newNoteTitle"
             type="text"
             class="create-note__input create-note__input_title"
-            v-model="originNote.title"
+            v-model="statesStack[currentStateIndex].title"
           />
           <AddNewTodo @add-new-todo="addTodo" />
-          <TodoList :todos="originNote.todos" />
+          <TodoList :todos="statesStack[currentStateIndex].todos" @delete-todo="deleteTodo"/>
           <div class="btn-group__wrap">
             <button class="btn btn_blue" @click.prevent="initNote()">Сохранить</button>
             <button class="btn btn_grey" @click.prevent="onCancel()">Отменить</button>
@@ -25,11 +25,8 @@ import TodoList from "@/components/TodoList.vue";
 export default {
   data() {
     return {
-      originNote: JSON.parse(JSON.stringify(this.note)), //убираем реактивность
-      id: this.note.id,
-      title: this.note.title,
-      todos: this.note.todos,
-      newTodo: "",
+      statesStack: [], //массив состояний заметки для undo-redo
+      currentStateIndex: 0 //индекс текущего состояния заметки в массиве состояний statesStack
     };
   },
   props: {
@@ -37,16 +34,32 @@ export default {
       type: [Object, Array]
     }
   },
+  computed: {
+    originNote: (thisComponent) => JSON.stringify(thisComponent.note), //убираем реактивность (заметка до всех изменений - оригинал)
+  },
   methods: {
+    initNextStateNote(){ //сохраняем текущее состояние заметки в statesStack и увеличиваем индекс
+      this.statesStack.push(this.statesStack[this.currentStateIndex]);
+      this.statesStack[this.currentStateIndex] = JSON.stringify(this.statesStack[this.currentStateIndex]);
+      this.currentStateIndex++;
+    },
     addTodo(todo) {
       if (todo) {
-        this.todos.push(todo);
+        this.initNextStateNote();
+        this.statesStack[this.currentStateIndex].todos.push(todo);
+      }
+    },
+    deleteTodo(id) {
+      if (id) {
+        this.initNextStateNote();
+        this.statesStack[this.currentStateIndex].todos = this.statesStack[this.currentStateIndex].todos.filter( todo => todo.id !== id);
       }
     },
     clearForm(){
-      this.id = null;
-      this.title = "Введите название заметки";
-      this.todos = [];
+      // this.id = null;
+      // this.title = "Введите название заметки";
+      // this.todos = [];
+      this.statesStack = [];
     },
     initNote(){
       if (this.title.trim()) {
@@ -68,6 +81,10 @@ export default {
     TodoList,
     AddNewTodo
   },
+  created:
+    function(){
+      this.statesStack.push(JSON.parse(this.originNote));
+    }
 }
 
 </script>

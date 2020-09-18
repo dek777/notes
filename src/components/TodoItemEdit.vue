@@ -32,7 +32,6 @@ import Confirm from "@/components/Confirm.vue";
 export default {
   data() {
     return {
-      statesStack: [], //массив состояний заметки для undo-redo
       confirmBlockVisible: false,
       todoEditMode: false, //режим редактирования текста todo
     };
@@ -65,7 +64,7 @@ export default {
       }
     },
     deleteTodo() {
-      console.log(this.todo.id);
+      this.$emit('delete-todo',this.todo.id);
     },
     autoresize(event) {
       const textarea = event.target;

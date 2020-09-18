@@ -28,11 +28,11 @@ export default {
       }
     }
   },
-  mounted: {
+  mounted: 
     function(){
       this.newTodo = "";
     }
-  }
+  
 };
 </script>
 
