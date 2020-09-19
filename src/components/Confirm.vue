@@ -21,7 +21,8 @@ export default {
   },
   methods: {
     deleteItem() {
-      this.$emit("confirm");
+      this.$emit("cancel");
+      setTimeout( () => this.$emit("confirm"), 500 );
     },
     cancel() {
       this.$emit("cancel");

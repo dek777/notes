@@ -19,38 +19,38 @@ export default {
     return {
       notes: [
         {
-          id: 0,
+          id: 11,
           title: 'Название заметки №1',
           todos: [
             {
-              id: 0,
+              id: 1111,
               text: 'Задача 1 sssssssssds dddddddd ddddddg gggggg g qqqq qqqqqqqqqq ww rrrrrrrr fffffffffffff gggggggggggggg hhhhhhhhhh fffffffffffff dddddddddddddddd',
               done: true
             },
             {
-              id: 1,
+              id: 1122,
               text: 'Задача 2',
               done: false
             }
           ]
         },
         {
-          id: 1,
+          id: 22,
           title: 'Название заметки №2',
           completed: false,
           todos: [
             {
-              id: 0,
+              id: 2211,
               text: 'Задача 1',
               done: false
             },
             {
-              id: 1,
+              id: 2222,
               text: 'Задача 2',
               done: false 
             },
             {
-              id: 2,
+              id: 2233,
               text: 'Задача 3',
               done: false 
             }
