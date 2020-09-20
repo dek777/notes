@@ -23,16 +23,13 @@ export default {
         this.$emit('add-new-todo',{
           id: Date.now(),
           text: this.newTodo,
+          done: false 
         });
         this.newTodo = "";
       }
     }
   },
-  mounted: 
-    function(){
-      this.newTodo = "";
-    }
-  
+
 };
 </script>
 

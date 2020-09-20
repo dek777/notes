@@ -4,6 +4,7 @@
       <TodoItem v-for="(todo, i) in todos" :key="i" :todo="todo" :index="i" />
     </div>
     <div v-if="isEditPage" class="todos__wrap">
+      <p v-if="!todos.length" class="text__empty-list">Список задач пуст</p>
       <TodoItemEdit v-for="(todo, i) in todos" :key="i" :todo="todo" :index="i" @delete-todo="deleteTodo" />
     </div>
   </div>
@@ -39,5 +40,11 @@ export default {
 <style scoped>
 .todos__wrap {
   margin-bottom: 3rem;
+}
+
+.text__empty-list{
+  text-align: center;
+  font-size: 0.9rem;
+  color: var(--secondary-text);
 }
 </style>

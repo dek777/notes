@@ -78,6 +78,7 @@ export default {
   --blue: #4279ee;
   --secondary-blue: #93afec;
   --bg-blue: #E6F2FE;
+  --error-color: #700202;
 }
 
 * { 

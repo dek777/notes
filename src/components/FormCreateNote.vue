@@ -2,13 +2,7 @@
   <div class="create-note__form-wrap">
       <transition name="create-note__animation">
         <form v-if="formVisible" class="create-note__form">
-          <input
-            id="newNoteTitle"
-            type="text"
-            class="create-note__input create-note__input_title"
-            @keyup.enter="addTodo"
-            v-model="title"
-          />
+          <EditTitleNote :text="title" @change-title="changeTitle" />
           <AddNewTodo @add-new-todo="addTodo" />
           <TodoList :todos="this.todos" />
           <div class="btn-group__wrap">
@@ -22,6 +16,7 @@
 </template>
 
 <script>
+import EditTitleNote from "@/components/EditTitleNote.vue";
 import AddNewTodo from "@/components/AddNewTodo.vue";
 import TodoList from "@/components/TodoList.vue";
 
@@ -29,7 +24,7 @@ export default {
   data() {
     return {
       id: null,
-      title: "Введите название заметки",
+      title: '',
       todos: [],
     };
   },
@@ -46,8 +41,11 @@ export default {
     },
     clearForm(){
       this.id = null;
-      this.title = "Введите название заметки";
+      this.title = '';
       this.todos = [];
+    },
+    changeTitle(newTitle){
+      this.title = newTitle;
     },
     initNote(){
       if (this.title.trim()) {
@@ -58,7 +56,7 @@ export default {
         } 
         this.$emit("init-note", JSON.stringify(note));
         this.clearForm();
-      }
+      } 
     },
     onCancel(){
       this.clearForm();
@@ -66,6 +64,7 @@ export default {
     }
   },
   components: {
+    EditTitleNote,
     TodoList,
     AddNewTodo
   },
@@ -88,6 +87,7 @@ export default {
   border: 0;
   cursor: pointer;
   border-radius: 5px;
+  width: 100%;
 }
 .btn__create-note:hover,
 .btn__create-note:focus {
@@ -98,6 +98,7 @@ export default {
 .btn__create-note_blue {
   background-color: var(--blue);
   color: #fff;
+  margin-right: 1rem;
 }
 .btn__create-note_blue:hover {
   background-color: #326ff3;

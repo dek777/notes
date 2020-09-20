@@ -1,12 +1,8 @@
 <template>
-  <div class="create-note__form-wrap">
-        <form class="create-note__form">
-          <input
-            id="newNoteTitle"
-            type="text"
-            class="create-note__input create-note__input_title"
-            v-model="statesStack[currentStateIndex].title"
-          />
+  <div class="edit-note__form-wrap">
+        <form class="edit-note__form">
+          
+          <EditTitleNote :text="this.statesStack[this.currentStateIndex].title" @change-title="changeTitle" />
           <AddNewTodo @add-new-todo="addTodo" />
           <TodoList :todos="statesStack[currentStateIndex].todos" @delete-todo="deleteTodo"/>
           <div class="btn-group__wrap">
@@ -21,6 +17,7 @@
 <script>
 import AddNewTodo from "@/components/AddNewTodo.vue";
 import TodoList from "@/components/TodoList.vue";
+import EditTitleNote from "@/components/EditTitleNote.vue";
 
 export default {
   data() {
@@ -52,8 +49,12 @@ export default {
     deleteTodo(id) {
       if (id) {
         this.initNextStateNote();
-        this.statesStack[this.currentStateIndex].todos = this.statesStack[this.currentStateIndex].todos.filter( todo => todo.id !== id);
+        this.statesStack[this.currentStateIndex].todos = this.statesStack[this.currentStateIndex].todos.filter( todo => todo.id !== id );
       }
+    },
+    changeTitle(newTitle){
+      this.initNextStateNote();
+      this.statesStack[this.currentStateIndex].title = newTitle;
     },
     clearForm(){
       // this.id = null;
@@ -62,15 +63,15 @@ export default {
       this.statesStack = [];
     },
     initNote(){
-      if (this.title.trim()) {
-        const note = {
-          id: Date.now(),
-          title: this.title,
-          todos: this.todos
-        } 
-        this.$emit("init-note", JSON.stringify(note));
-        this.clearForm();
-      }
+      // if (this.title.trim()) {
+      //   const note = {
+      //     id: Date.now(),
+      //     title: this.title,
+      //     todos: this.todos
+      //   } 
+      //   this.$emit("init-note", JSON.stringify(note));
+      //   this.clearForm();
+      // }
     },
     onCancel(){
       this.clearForm();
@@ -79,7 +80,8 @@ export default {
   },
   components: {
     TodoList,
-    AddNewTodo
+    AddNewTodo,
+    EditTitleNote
   },
   created:
     function(){
@@ -137,12 +139,12 @@ export default {
   margin-right: 2rem;
 }
 
-.create-note__form-wrap {
+.edit-note__form-wrap {
   overflow: hidden;
   padding: 15px;
 }
 
-.create-note__form {
+.edit-note__form {
   width: 100%;
   max-width: 368px;
   min-height: 226px;
@@ -155,40 +157,6 @@ export default {
   box-shadow: 0px 5px 10px 0px rgba(50, 50, 50, 0.3);
   margin: 0 auto;
   box-sizing: border-box;
-}
-
-.create-note__input {
-  display: block;
-  width: 100%;
-  max-width: 290px;
-  padding: 5px 10px;
-  margin: 1rem 0;
-  color: var(--text);
-}
-
-.create-note__input:focus {
-  outline: var(--blue);
-  color: var(--text);
-}
-
-.create-note__input_todo {
-  border: 1px solid var(--secondary-blue);
-  border-radius: 5px;
-}
-
-.create-note__input_title {
-  border: 0;
-  outline: none;
-  border-bottom: 1px solid var(--secondary-blue);
-  font-size: 1.1rem;
-  font-weight: 600;
-  margin: 0.3rem 0 0.5rem;
-  padding: 5px 10px;
-  color: var(--text);
-}
-
-.create-note__add-todo-wrap {
-  display: flex;
 }
 
 .icon {
