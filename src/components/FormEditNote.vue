@@ -4,7 +4,7 @@
           
           <EditTitleNote :text="this.statesStack[this.currentStateIndex].title" @change-title="changeTitle" />
           <AddNewTodo @add-new-todo="addTodo" />
-          <TodoList :todos="statesStack[currentStateIndex].todos" @delete-todo="deleteTodo"/>
+          <TodoList :todos="statesStack[currentStateIndex].todos" @delete-todo="deleteTodo" @done-undone-todo="doneUndoneTodo" />
           <div class="btn-group__wrap">
             <button class="btn btn_blue" @click.prevent="initNote()">Сохранить</button>
             <button class="btn btn_grey" @click.prevent="onCancel()">Отменить</button>
@@ -56,10 +56,11 @@ export default {
       this.initNextStateNote();
       this.statesStack[this.currentStateIndex].title = newTitle;
     },
+    doneUndoneTodo(todo){
+      this.initNextStateNote();
+      todo.done = !todo.done;
+    },
     clearForm(){
-      // this.id = null;
-      // this.title = "Введите название заметки";
-      // this.todos = [];
       this.statesStack = [];
     },
     initNote(){

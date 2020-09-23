@@ -5,7 +5,7 @@
     </div>
     <div v-if="isEditPage" class="todos__wrap">
       <p v-if="!todos.length" class="text__empty-list">Список задач пуст</p>
-      <TodoItemEdit v-for="(todo, i) in todos" :key="i" :todo="todo" :index="i" @delete-todo="deleteTodo" />
+      <TodoItemEdit v-for="(todo, i) in todos" :key="i" :todo="todo" :index="i" @delete-todo="deleteTodo" @done-undone-todo="doneUndoneTodo" />
     </div>
   </div>
 </template>
@@ -32,6 +32,9 @@ export default {
   methods: {
     deleteTodo(id) {
       this.$emit('delete-todo', id);
+    },
+    doneUndoneTodo(todo) {
+      this.$emit('done-undone-todo', todo);
     },
   }
 };

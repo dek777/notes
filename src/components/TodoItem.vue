@@ -1,9 +1,7 @@
 <template>
   <div class="todo__wrap">
-    <p class="todo__text">
-      <span class="todo__index">{{ index + 1 }}</span>
-      {{ todo.text }}
-    </p>
+    <p class="todo__text todo__index">{{ index + 1 }}</p>
+    <p class="todo__text">{{ todo.text }}</p>
   </div>
 </template>
 
@@ -23,12 +21,19 @@ export default {
 </script>
 
 <style scoped>
+.todo__wrap{
+  display: grid;
+  grid-template-columns: 25px 1fr;
+  gap: 1rem;
+}
+
 .todo__text {
   font-size: 1.001rem;
   margin: 0.5rem 0;
+  line-height: 1.3;
 }
 .todo__index {
-  margin-right: 1rem;
+  /* margin-right: 1rem; */
   display: inline-block;
   font-weight: 500;
   text-align: center;

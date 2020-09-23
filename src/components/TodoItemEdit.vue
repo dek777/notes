@@ -48,7 +48,8 @@ export default {
   methods: {
     doneUndoneTodo() {
       //чекбокс для todo (выполнено - не выполнено)
-      this.todo.done = !this.todo.done;
+      //this.todo.done = !this.todo.done;
+      this.$emit('done-undone-todo',this.todo);
     },
     showHideConfirmBlock() {
       //открыть-скрыть блок подтверждения
