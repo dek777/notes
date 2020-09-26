@@ -1,8 +1,9 @@
 <template>
   <div class="edit-note__form-wrap">
         <form class="edit-note__form">
-          
-          <EditTitleNote :text="this.statesStack[this.currentStateIndex].title" @change-title="changeTitle" />
+          <!-- <button @click.prevent="undo">Undo</button>
+          <button @click.prevent="redo">Redo</button> -->
+          <EditTitleNote :text="statesStack[currentStateIndex].title" @change-title="changeTitle" />
           <AddNewTodo @add-new-todo="addTodo" />
           <TodoList :todos="statesStack[currentStateIndex].todos" @delete-todo="deleteTodo" @done-undone-todo="doneUndoneTodo" />
           <div class="btn-group__wrap">
@@ -37,7 +38,7 @@ export default {
   methods: {
     initNextStateNote(){ //сохраняем текущее состояние заметки в statesStack и увеличиваем индекс
       this.statesStack.push(this.statesStack[this.currentStateIndex]);
-      this.statesStack[this.currentStateIndex] = JSON.stringify(this.statesStack[this.currentStateIndex]);
+      this.statesStack[this.currentStateIndex] = JSON.parse(JSON.stringify(this.statesStack[this.currentStateIndex]));
       this.currentStateIndex++;
     },
     addTodo(todo) {
@@ -62,6 +63,12 @@ export default {
     },
     clearForm(){
       this.statesStack = [];
+    },
+    undo(){
+      this.currentStateIndex--;
+    },
+    redo(){
+      this.currentStateIndex++;
     },
     initNote(){
       // if (this.title.trim()) {

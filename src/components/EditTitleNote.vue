@@ -3,11 +3,10 @@
     <input
       type="text"
       class="edit-title__input edit-title__input_title"
-      :class="{input_error : isTitleEmpty}"
+      :class="{ input_error: isTitleEmpty }"
       placeholder="Введите название заметки"
-      @change="titleChange"
-      @blur="onUnfocus"
-      ref="inputTitle"
+      @keypress.enter.prevent="titleChange"
+      @blur="titleChange"
       v-model="newTitle"
     />
     <transition name="error-animation">
@@ -20,43 +19,38 @@
 
 <script>
 export default {
-  data(){
+  data() {
     return {
       isTitleEmpty: false,
-      newTitle: ''
-    }
+      newTitle: JSON.parse(JSON.stringify(this.text)), 
+    };
   },
   props: {
     text: {
-      type: String
-    }
+      type: String,
+    },
   },
-  created: 
-    function(){
+  watch: {
+    text: function () {
       this.newTitle = JSON.parse(JSON.stringify(this.text));
-    }
-  ,
+    },
+  },
   methods: {
-    onUnfocus(){
-      if (!this.$refs['inputTitle'].value){
-        this.isTitleEmpty = true;
+    titleChange() {
+      if (this.newTitle !== this.text) { 
+        if (this.newTitle.trim()) {
+          this.isTitleEmpty = false;
+          this.$emit("change-title", this.newTitle);
+        } else {
+          this.isTitleEmpty = true;
+        }
       }
     },
-    titleChange(){
-      if (this.newTitle.trim()){
-        this.isTitleEmpty = false;
-        this.$emit("change-title", this.newTitle)
-      } else {
-        this.isTitleEmpty = true;
-      }
-    }
   },
-  
-}
+};
 </script>
 
 <style scoped>
-
 .edit-title__input {
   display: block;
   width: 100%;
@@ -87,16 +81,16 @@ export default {
   color: var(--text);
 }
 
-.input_error{
+.input_error {
   border-bottom: 2px solid var(--error-color);
 }
 
 /* Error */
-.error__wrap{
+.error__wrap {
   overflow: hidden;
 }
 
-.error__text{
+.error__text {
   font-size: 0.8rem;
   color: var(--error-color);
   font-weight: 600;
@@ -114,6 +108,4 @@ export default {
 .error-animation-leave-to {
   transform: translateY(-100%);
 }
-
-
 </style>
