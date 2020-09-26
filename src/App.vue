@@ -71,6 +71,9 @@ export default {
 </script>
 
 <style>
+@import './assets/fonts/gilroy/stylesheet.css';
+@import './assets/fonts/icon-font/flaticon.css';
+
 :root{
   --text: #202224;
   --secondary-text: #7d7d7e;

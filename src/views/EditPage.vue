@@ -37,7 +37,7 @@ export default {
 
 <style scoped>
 .title{
-  margin: 4rem auto 1rem;
+  margin: 2rem auto 1rem;
   font-size: 1.4rem;
 }
 </style>

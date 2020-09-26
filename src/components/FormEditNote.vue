@@ -1,44 +1,66 @@
 <template>
   <div class="edit-note__form-wrap">
-        <form class="edit-note__form">
-          <!-- <button @click.prevent="undo">Undo</button>
-          <button @click.prevent="redo">Redo</button> -->
-          <EditTitleNote :text="statesStack[currentStateIndex].title" @change-title="changeTitle" />
-          <AddNewTodo @add-new-todo="addTodo" />
-          <TodoList :todos="statesStack[currentStateIndex].todos" @delete-todo="deleteTodo" @done-undone-todo="doneUndoneTodo" />
-          <div class="btn-group__wrap">
-            <button class="btn btn_blue" @click.prevent="initNote()">Сохранить</button>
-            <button class="btn btn_grey" @click.prevent="onCancel()">Отменить</button>
-          </div>
-          
-        </form>
-    </div>
+    <UndoRedo
+      :length="statesStack.length"
+      :counter="currentStateIndex"
+      @undo="undo"
+      @redo="redo"
+    />
+    <form class="edit-note__form">
+      <EditTitleNote
+        :text="statesStack[currentStateIndex].title"
+        @change-title="changeTitle"
+      />
+      <AddNewTodo @add-new-todo="addTodo" />
+      <TodoList
+        :todos="statesStack[currentStateIndex].todos"
+        @delete-todo="deleteTodo"
+        @done-undone-todo="doneUndoneTodo"
+      />
+      <div class="btn-group__wrap">
+        <button class="btn btn_blue" @click.prevent="initNote()">
+          Сохранить
+        </button>
+        <button class="btn btn_grey" @click.prevent="onCancel()">
+          Отменить
+        </button>
+      </div>
+    </form>
+  </div>
 </template>
 
 <script>
 import AddNewTodo from "@/components/AddNewTodo.vue";
 import TodoList from "@/components/TodoList.vue";
 import EditTitleNote from "@/components/EditTitleNote.vue";
+import UndoRedo from "@/components/UndoRedo.vue";
 
 export default {
   data() {
     return {
       statesStack: [], //массив состояний заметки для undo-redo
-      currentStateIndex: 0 //индекс текущего состояния заметки в массиве состояний statesStack
+      currentStateIndex: 0, //индекс текущего состояния заметки в массиве состояний statesStack
     };
   },
   props: {
     note: {
-      type: [Object, Array]
-    }
+      type: [Object, Array],
+    },
   },
   computed: {
     originNote: (thisComponent) => JSON.stringify(thisComponent.note), //убираем реактивность (заметка до всех изменений - оригинал)
   },
   methods: {
-    initNextStateNote(){ //сохраняем текущее состояние заметки в statesStack и увеличиваем индекс
+    initNextStateNote() {
+      //если индекс текущего состояния заметки меньше длины массива состояний (добавление нового состояния заметки после нажатий undo), все состояния после текущего индекса удаляем (redo становится неактивна)
+      if (this.currentStateIndex < this.statesStack.length - 1) {
+        this.statesStack = this.statesStack.splice(0, this.currentStateIndex + 1);
+      }
+      //сохраняем текущее состояние заметки в statesStack и увеличиваем индекс
       this.statesStack.push(this.statesStack[this.currentStateIndex]);
-      this.statesStack[this.currentStateIndex] = JSON.parse(JSON.stringify(this.statesStack[this.currentStateIndex]));
+      this.statesStack[this.currentStateIndex] = JSON.parse(
+        JSON.stringify(this.statesStack[this.currentStateIndex])
+      );
       this.currentStateIndex++;
     },
     addTodo(todo) {
@@ -50,58 +72,58 @@ export default {
     deleteTodo(id) {
       if (id) {
         this.initNextStateNote();
-        this.statesStack[this.currentStateIndex].todos = this.statesStack[this.currentStateIndex].todos.filter( todo => todo.id !== id );
+        this.statesStack[this.currentStateIndex].todos = this.statesStack[
+          this.currentStateIndex
+        ].todos.filter((todo) => todo.id !== id);
       }
     },
-    changeTitle(newTitle){
+    changeTitle(newTitle) {
       this.initNextStateNote();
       this.statesStack[this.currentStateIndex].title = newTitle;
     },
-    doneUndoneTodo(todo){
+    doneUndoneTodo(todo) {
       this.initNextStateNote();
       todo.done = !todo.done;
     },
-    clearForm(){
+    clearForm() {
       this.statesStack = [];
     },
-    undo(){
+    undo() {
       this.currentStateIndex--;
     },
-    redo(){
+    redo() {
       this.currentStateIndex++;
     },
-    initNote(){
+    initNote() {
       // if (this.title.trim()) {
       //   const note = {
       //     id: Date.now(),
       //     title: this.title,
       //     todos: this.todos
-      //   } 
+      //   }
       //   this.$emit("init-note", JSON.stringify(note));
       //   this.clearForm();
       // }
     },
-    onCancel(){
+    onCancel() {
       this.clearForm();
       this.$emit("hide-form");
-    }
+    },
   },
   components: {
     TodoList,
     AddNewTodo,
-    EditTitleNote
+    EditTitleNote,
+    UndoRedo,
   },
-  created:
-    function(){
-      this.statesStack.push(JSON.parse(this.originNote));
-    }
-}
-
+  created: function () {
+    this.statesStack.push(JSON.parse(this.originNote));
+  },
+};
 </script>
 
 <style scoped>
-
-.btn-group__wrap{
+.btn-group__wrap {
   display: flex;
   justify-content: space-between;
 }
@@ -143,13 +165,13 @@ export default {
   color: var(--grey);
 }
 
-.mr-rem-2{
+.mr-rem-2 {
   margin-right: 2rem;
 }
 
 .edit-note__form-wrap {
   overflow: hidden;
-  padding: 15px;
+  padding: 0 15px 15px;
 }
 
 .edit-note__form {
@@ -175,6 +197,4 @@ export default {
 .icon:hover {
   color: var(--blue);
 }
-
-
 </style>
