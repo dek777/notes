@@ -1,11 +1,20 @@
 <template>
   <div class="edit-note__form-wrap">
+
+    <!-- Control buttons -->
     <UndoRedo
       :length="statesStack.length"
       :counter="currentStateIndex"
       @undo="undo"
       @redo="redo"
+      @discard-changes="showhideDiscardModalVisible"
+      @remove="showhideDeleteModalVisible"
     />
+    <!-- Modals -->
+    <ConfirmModal :confirmModalVisible="confirmDeleteModalVisible" @confirm="deleteNote" @cancel="showhideDeleteModalVisible">Вы уверены, что хотите удалить заметку?</ConfirmModal>
+    <ConfirmModal :confirmModalVisible="confirmDiscardModalVisible" @confirm="discardChanges" @cancel="showhideDiscardModalVisible">Вы уверены, что хотите отменить все изменения?</ConfirmModal>
+
+    <!-- Note Editing Form-->
     <form class="edit-note__form">
       <EditTitleNote
         :text="statesStack[currentStateIndex].title"
@@ -26,6 +35,7 @@
         </button>
       </div>
     </form>
+
   </div>
 </template>
 
@@ -34,12 +44,15 @@ import AddNewTodo from "@/components/AddNewTodo.vue";
 import TodoList from "@/components/TodoList.vue";
 import EditTitleNote from "@/components/EditTitleNote.vue";
 import UndoRedo from "@/components/UndoRedo.vue";
+import ConfirmModal from "@/components/ConfirmModal.vue";
 
 export default {
   data() {
     return {
       statesStack: [], //массив состояний заметки для undo-redo
       currentStateIndex: 0, //индекс текущего состояния заметки в массиве состояний statesStack
+      confirmDeleteModalVisible: false,
+      confirmDiscardModalVisible: false,
     };
   },
   props: {
@@ -52,7 +65,8 @@ export default {
   },
   methods: {
     initNextStateNote() {
-      //если индекс текущего состояния заметки меньше длины массива состояний (добавление нового состояния заметки после нажатий undo), все состояния после текущего индекса удаляем (redo становится неактивна)
+      //если индекс текущего состояния заметки меньше длины массива состояний 
+      //(добавление нового состояния заметки после нажатий undo), все состояния после текущего индекса удаляем (redo становится неактивна)
       if (this.currentStateIndex < this.statesStack.length - 1) {
         this.statesStack = this.statesStack.splice(0, this.currentStateIndex + 1);
       }
@@ -88,11 +102,24 @@ export default {
     clearForm() {
       this.statesStack = [];
     },
+    showhideDeleteModalVisible(){
+      this.confirmDeleteModalVisible = !this.confirmDeleteModalVisible;
+    },
+    showhideDiscardModalVisible(){
+      this.confirmDiscardModalVisible = !this.confirmDiscardModalVisible;
+    },
     undo() {
       this.currentStateIndex--;
     },
     redo() {
       this.currentStateIndex++;
+    },
+    discardChanges(){
+      this.statesStack = this.statesStack.splice(0, 1);
+      this.currentStateIndex = 0;
+    },
+    deleteNote(){
+      this.$emit('delete-note', this.note.id);
     },
     initNote() {
       // if (this.title.trim()) {
@@ -115,6 +142,7 @@ export default {
     AddNewTodo,
     EditTitleNote,
     UndoRedo,
+    ConfirmModal
   },
   created: function () {
     this.statesStack.push(JSON.parse(this.originNote));

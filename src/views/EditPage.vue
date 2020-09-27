@@ -1,7 +1,7 @@
 <template>
   <div class="edit__wrap">
     <h1 class="title">Редактирование заметки</h1>
-    <FormEditNote :note="editNote" />
+    <FormEditNote :note="editNote" @delete-note="deleteNote"/>
   </div>
 </template>
 
@@ -27,7 +27,11 @@ export default {
     getNote(){
       const id = this.getId()
       return this.notes.filter( note => note.id == id )[0]
-    }
+    },
+    deleteNote(id) {
+      this.$emit("remove-note", id);
+      this.$router.push('/');
+    },
   },
   components: {
     FormEditNote

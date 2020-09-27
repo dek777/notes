@@ -2,8 +2,8 @@
   <div class="undoredo__wrap">
     <button :disabled="isUndoBtnDisabled" class="undoredo__btn" @click.prevent="undo"><i class="flaticon-back-arrow undoredo__icon"></i></button>
     <button :disabled="isRedoBtnDisabled" class="undoredo__btn" @click.prevent="redo"><i class="flaticon-redo-arrow undoredo__icon"></i></button>
-    <button :disabled="isDiscardBtnDisabled" class="undoredo__btn" @click.prevent="redo"><i class="flaticon-signal undoredo__icon"></i></button>
-    <button class="undoredo__btn" @click.prevent="redo"><i class="flaticon-delete undoredo__icon"></i></button>
+    <button :disabled="isDiscardBtnDisabled" class="undoredo__btn" @click.prevent="discardChanges"><i class="flaticon-signal undoredo__icon"></i></button>
+    <button class="undoredo__btn" @click.prevent="remove"><i class="flaticon-delete undoredo__icon"></i></button>
   </div>
 </template>
 
@@ -41,6 +41,12 @@ export default {
     },
     redo(){
       this.$emit("redo");
+    },
+    discardChanges(){
+      this.$emit("discard-changes");
+    },
+    remove(){
+      this.$emit("remove");
     },
     validate(){
       (this.counter === 0) ? this.isUndoBtnDisabled = true : this.isUndoBtnDisabled = false;
