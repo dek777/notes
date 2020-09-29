@@ -1,19 +1,8 @@
 # todo
 
-## Project setup
+## Ссылка для тестирования
 ```
-npm install
-```
-
-### Compiles and hot-reloads for development
-```
-npm run serve
+https://todo.dek777.site/
 ```
 
-### Compiles and minifies for production
-```
-npm run build
-```
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
