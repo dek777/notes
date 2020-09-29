@@ -7,6 +7,7 @@
       placeholder="Введите название заметки"
       @keypress.enter.prevent="titleChange"
       @blur="titleChange"
+      @input="onInput"
       v-model="newTitle"
     />
     <transition name="error-animation">
@@ -36,16 +37,19 @@ export default {
     },
   },
   methods: {
-    titleChange() {
-      if (this.newTitle !== this.text) { 
-        if (this.newTitle.trim()) {
+    titleChange() {     
+      if (this.newTitle.trim()) {
+        if (this.newTitle !== this.text) {  
           this.isTitleEmpty = false;
           this.$emit("change-title", this.newTitle);
-        } else {
+        } 
+      } else {
           this.isTitleEmpty = true;
-        }
       }
     },
+    onInput(){
+      this.$emit("input-title", this.newTitle);
+    }
   },
 };
 </script>

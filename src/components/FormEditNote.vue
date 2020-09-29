@@ -27,7 +27,7 @@
         @done-undone-todo="doneUndoneTodo"
       />
       <div class="btn-group__wrap">
-        <button class="btn btn_blue" @click.prevent="initNote()">
+        <button class="btn btn_blue" @click.prevent="saveNote()">
           Сохранить
         </button>
         <button class="btn btn_grey" @click.prevent="onCancel()">
@@ -121,20 +121,11 @@ export default {
     deleteNote(){
       this.$emit('delete-note', this.note.id);
     },
-    initNote() {
-      // if (this.title.trim()) {
-      //   const note = {
-      //     id: Date.now(),
-      //     title: this.title,
-      //     todos: this.todos
-      //   }
-      //   this.$emit("init-note", JSON.stringify(note));
-      //   this.clearForm();
-      // }
+    saveNote() {
+      this.$emit('save-note', this.note, this.statesStack[this.currentStateIndex]);
     },
     onCancel() {
-      this.clearForm();
-      this.$emit("hide-form");
+      this.$router.push('/');
     },
   },
   components: {

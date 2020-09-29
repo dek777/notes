@@ -51,7 +51,7 @@ export default {
     validate(){
       (this.counter === 0) ? this.isUndoBtnDisabled = true : this.isUndoBtnDisabled = false;
       (this.counter === this.length - 1) ? this.isRedoBtnDisabled = true : this.isRedoBtnDisabled = false;
-      (this.counter < 0) ? this.isDiscardBtnDisabled = true : this.isDiscardBtnDisabled = false;
+      (this.counter < 1) ? this.isDiscardBtnDisabled = true : this.isDiscardBtnDisabled = false;
     }
   }
 };
@@ -83,6 +83,7 @@ export default {
 
 .undoredo__btn:disabled:hover{
   background-color: var(--secondary-blue);
+  cursor: default;
 }
 
 .undoredo__icon{

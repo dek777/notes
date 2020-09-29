@@ -4,6 +4,7 @@
       type="text"
       class="add-todo__input"
       placeholder="Добавить задачу"
+      @keypress.enter.prevent="addTodo"
       v-model="newTodo"
     />
     <i @click="addTodo" class="flaticon-add icon"></i>

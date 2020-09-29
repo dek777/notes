@@ -30,7 +30,10 @@ export default {
 .todo__text {
   font-size: 1.001rem;
   margin: 0.5rem 0;
-  line-height: 1.3;
+  line-height: 25px;
+  white-space: nowrap; /* Отменяем перенос текста */
+  overflow: hidden; /* Обрезаем содержимое */
+  text-overflow: ellipsis; /* Многоточие */
 }
 .todo__index {
   /* margin-right: 1rem; */

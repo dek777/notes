@@ -1,7 +1,7 @@
 <template>
   <div class="edit__wrap">
     <h1 class="title">Редактирование заметки</h1>
-    <FormEditNote :note="editNote" @delete-note="deleteNote"/>
+    <FormEditNote :note="editNote" @delete-note="deleteNote" @save-note="saveNote" />
   </div>
 </template>
 
@@ -32,6 +32,12 @@ export default {
       this.$emit("remove-note", id);
       this.$router.push('/');
     },
+    saveNote(oldNote, newNote){
+      oldNote.title = newNote.title;
+      oldNote.todos = newNote.todos;
+      localStorage.setItem('notes', JSON.stringify(this.notes));
+      this.$router.push('/');
+    }
   },
   components: {
     FormEditNote

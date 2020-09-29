@@ -1,18 +1,32 @@
 <template>
   <div class="create-note__form-wrap">
-      <transition name="create-note__animation">
-        <form v-if="formVisible" class="create-note__form">
-          <EditTitleNote :text="title" @change-title="changeTitle" />
-          <AddNewTodo @add-new-todo="addTodo" />
-          <TodoList :todos="this.todos" />
-          <div class="btn-group__wrap">
-            <button class="btn__create-note btn__create-note_blue" @click.prevent="initNote()">Сохранить</button>
-            <button class="btn__create-note btn__create-note_grey" @click.prevent="onCancel()">Отменить</button>
-          </div>
-          
-        </form>
-      </transition>
-    </div>
+    <transition name="create-note__animation">
+      <form v-if="formVisible" class="create-note__form">
+        <EditTitleNote
+          :text="title"
+          @change-title="changeTitle"
+          @input-title="onInputTitle"
+        />
+        <AddNewTodo @add-new-todo="addTodo" />
+        <TodoList :todos="this.todos" :maxTodosCount="this.todos.length" />
+        <div class="btn-group__wrap">
+          <button
+            :disabled="isSaveBtnDisabled"
+            class="btn__create-note btn__create-note_blue"
+            @click.prevent="initNote()"
+          >
+            Сохранить
+          </button>
+          <button
+            class="btn__create-note btn__create-note_grey"
+            @click.prevent="onCancel()"
+          >
+            Отменить
+          </button>
+        </div>
+      </form>
+    </transition>
+  </div>
 </template>
 
 <script>
@@ -24,14 +38,23 @@ export default {
   data() {
     return {
       id: null,
-      title: '',
+      title: "",
       todos: [],
+      isSaveBtnDisabled: true,
     };
   },
   props: {
     formVisible: {
-      type: Boolean
-    }
+      type: Boolean,
+    },
+  },
+  watch: {
+    title: function (newTitle) {
+      // отключение/включение кнопки "Сохранить"
+      newTitle.trim()
+        ? (this.isSaveBtnDisabled = false)
+        : (this.isSaveBtnDisabled = true);
+    },
   },
   methods: {
     addTodo(todo) {
@@ -39,42 +62,44 @@ export default {
         this.todos.push(todo);
       }
     },
-    clearForm(){
+    clearForm() {
       this.id = null;
-      this.title = '';
+      this.title = "";
       this.todos = [];
     },
-    changeTitle(newTitle){
+    changeTitle(newTitle) {
       this.title = newTitle;
     },
-    initNote(){
+    onInputTitle(inputedText) {
+      this.title = inputedText;
+    },
+    initNote() {
+      // Создание новой заметки
       if (this.title.trim()) {
         const note = {
           id: Date.now(),
           title: this.title,
-          todos: this.todos
-        } 
+          todos: this.todos,
+        };
         this.$emit("init-note", JSON.stringify(note));
         this.clearForm();
-      } 
+      }
     },
-    onCancel(){
+    onCancel() {
       this.clearForm();
       this.$emit("hide-form");
-    }
+    },
   },
   components: {
     EditTitleNote,
     TodoList,
-    AddNewTodo
+    AddNewTodo,
   },
-}
-
+};
 </script>
 
 <style scoped>
-
-.btn-group__wrap{
+.btn-group__wrap {
   display: flex;
   justify-content: space-between;
 }
@@ -104,6 +129,11 @@ export default {
   background-color: #326ff3;
   color: #fff;
 }
+.btn__create-note_blue:disabled:hover {
+  background-color: var(--blue);
+  color: #fff;
+  cursor: default;
+}
 
 .btn__create-note_grey {
   background-color: #fff;
@@ -116,7 +146,7 @@ export default {
   color: var(--grey);
 }
 
-.mr-rem-2{
+.mr-rem-2 {
   margin-right: 2rem;
 }
 

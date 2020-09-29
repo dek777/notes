@@ -24,6 +24,7 @@ export default {
   methods: {
     createNewNote(note) {
       this.notes.unshift(note);
+      localStorage.setItem('notes', JSON.stringify(this.notes));
     },
     deleteNote(id) {
       this.$emit("remove-note", id);
@@ -43,6 +44,16 @@ export default {
   grid-template-columns: repeat(3, 1fr);
   gap: 2rem;
   margin: 2rem auto;
+}
+@media (max-width: 1100px){
+  .notes__wrap {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (max-width: 650px){
+  .notes__wrap {
+    grid-template-columns: 1fr;
+  }
 }
 
 .text_empty-list {

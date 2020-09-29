@@ -1,7 +1,7 @@
 <template>
   <div class>
     <div v-if="!isEditPage" class="todos__wrap">
-      <TodoItem v-for="(todo, i) in todos" :key="i" :todo="todo" :index="i" />
+      <TodoItem v-for="(todo, i) in todosSliced" :key="i" :todo="todo" :index="i" />
     </div>
     <div v-if="isEditPage" class="todos__wrap">
       <p v-if="!todos.length" class="text__empty-list">Список задач пуст</p>
@@ -20,14 +20,21 @@ export default {
       type: [Object, Array],
       required: true,
     },
+    maxTodosCount: { //количество задач при выводе заметки 
+      type: Number,
+      default: 3
+    }
   },
   components: {
     TodoItem,
     TodoItemEdit
   },
   computed: {
-    isEditPage: (vueInstance) =>
-      vueInstance.$route.name === "EditPage" ? true : false,
+    isEditPage: (thisComponent) =>
+      thisComponent.$route.name === "EditPage" ? true : false,
+    todosSliced: function () {
+      return this.todos.slice(0,this.maxTodosCount)
+    }
   },
   methods: {
     deleteTodo(id) {

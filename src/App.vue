@@ -1,10 +1,7 @@
 <template>
   <div id="app">
-    <router-link to="/"><h1 class="header__title"><span class="header__title_circle">З</span>аметки</h1></router-link>
-    <!-- <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/edit">Edit</router-link>
-    </div> -->
+    <h1 class="header__title"><router-link to="/"><span class="header__title_circle">З</span>аметки</router-link></h1>
+  
     <transition name="pages-fade" mode="out-in">
       <router-view :notes="notes" @remove-note="removeNote" />
     </transition>
@@ -17,27 +14,42 @@
 export default {
   data(){
     return {
-      notes: [
+      notes: [],
+      demoNotes: [
         {
           id: 11,
           title: 'Название заметки №1',
           todos: [
             {
               id: 1111,
-              text: 'Задача 1 sssssssssds dddddddd ddddddg gggggg g qqqq qqqqqqqqqq ww rrrrrrrr fffffffffffff gggggggggggggg hhhhhhhhhh fffffffffffff dddddddddddddddd',
+              text: 'Задача 1',
               done: true
             },
             {
               id: 1122,
               text: 'Задача 2',
               done: false
+            },
+            {
+              id: 1133,
+              text: 'Задача 3',
+              done: true
+            },
+            {
+              id: 1144,
+              text: 'Задача 4',
+              done: false
+            },
+            {
+              id: 1155,
+              text: 'Задача 5',
+              done: true
             }
           ]
         },
         {
           id: 22,
           title: 'Название заметки №2',
-          completed: false,
           todos: [
             {
               id: 2211,
@@ -59,13 +71,37 @@ export default {
       ]
     }
   },
+  mounted: [
+    function() {
+      const data = localStorage.getItem('notes');
+      if (data){
+        if ( this.validateNotesFromStorage(JSON.parse(data)) ) {
+          this.notes = JSON.parse(data);
+        } else {
+          localStorage.removeItem('notes');
+          this.notes = this.demoNotes;
+        }
+      } else {
+        this.notes = this.demoNotes;
+      }  
+    }
+  ],
   methods: {
     removeNote(id){
-      this.notes = this.notes.filter( note => note.id !== id )
+      this.notes = this.notes.filter( note => note.id !== id );
+      localStorage.setItem('notes', JSON.stringify(this.notes));
+    },
+    validateNotesFromStorage(notes){ //для валидации заметок из локального хранилища
+      let counter = 0;
+      notes.forEach(note => {// считаем только те заметки, которые имеют свойства id, title, todos
+        if (note.hasOwnProperty('id') && note.hasOwnProperty('title') && note.hasOwnProperty('todos')){
+          counter++;
+        }
+      });
+      if (counter === notes.length){ // если все заметки имеют свойства id, title, todos, возвращаем 1
+        return 1;
+      }  
     }
-  },
-  components: {
-    
   }
 }
 </script>

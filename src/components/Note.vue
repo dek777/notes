@@ -10,7 +10,7 @@
   
     <ConfirmModal :confirmModalVisible="confirmModalVisible" @confirm="deleteNote" @cancel="showHideConfirmModal">Вы уверены, что хотите удалить заметку?</ConfirmModal>
 
-    <TodoList :todos="note.todos" />
+    <TodoList :todos="note.todos" :maxTodosCount="3" />
     <TodoTotals :todosCount="note.todos.length" />
   </div>
 </template>
